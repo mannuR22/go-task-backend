@@ -5,3 +5,10 @@ type ListModel struct {
 	Movies []string `json:"movies" bosn:"movies"`
 	Books  []string `json:"books" bson:"books"`
 }
+
+type ListDAO struct {
+	Reference string   `json:"reference" bson:"reference"`
+	Task      []string `json:"task" bson:"task"`
+	Movies    []string `json:"movies" bosn:"movies"`
+	Books     []string `json:"books" bson:"books"`
+}

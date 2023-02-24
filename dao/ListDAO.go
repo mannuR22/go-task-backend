@@ -3,28 +3,31 @@ package dao
 import (
 	"context"
 
-	mongo "github.com/mannuR22/go-task-backend/dao/connection"
-	"go.mongodb.org/mongo-driver/bson"
+	mongo "github.com/mannuR22/go-task-backend.git/dao/connection"
+	list "github.com/mannuR22/go-task-backend.git/models"
 )
 
-func createList() {
+func createList(userList list.ListModel) error {
 	client, err := mongo.Connect()
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer client.Disconnect(context.Background())
 
 	// Get a handle to the "test" database
-	db := client.Database("test")
+	db := client.Database("taskdb")
 
 	// Get a handle to the "users" collection
-	users := db.Collection("users")
+	lists := db.Collection("lists")
 
 	// Insert a new document
-	_, err = users.InsertOne(context.Background(), bson.M{"name": "Alice"})
+	var listDao := list.ListDAO
+	_, err = lists.InsertOne(context.Background(), userList)
 	if err != nil {
-		panic(err)
+		return err
 	}
+
+	return nil
 }
 
 func readList() {
