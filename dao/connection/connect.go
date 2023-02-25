@@ -2,23 +2,22 @@ package connection
 
 import (
 	"context"
+	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func Connect() (*mongo.Client, error) {
-	// Set client options
-	clientOptions := options.Client().ApplyURI("mongodb+srv://mr2812910:J24SYyEGzuWS13m4@gotaskcluster.afunqsz.mongodb.net/test")
 
-	// Connect to MongoDB Atlas
-	client, err := mongo.Connect(context.Background(), clientOptions)
-	if err != nil {
-		return nil, err
-	}
+	serverAPIOptions := options.ServerAPI(options.ServerAPIVersion1)
+	clientOptions := options.Client().
+		ApplyURI("mongodb://localhost:27017/").
+		SetServerAPIOptions(serverAPIOptions)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	client, err := mongo.Connect(ctx, clientOptions)
 
-	// Check the connection
-	err = client.Ping(context.Background(), nil)
 	if err != nil {
 		return nil, err
 	}
