@@ -12,3 +12,7 @@ type ListDAO struct {
 	Movies    []string `json:"movies" bosn:"movies"`
 	Books     []string `json:"books" bson:"books"`
 }
+
+type ListCreatedVM struct {
+	RefId string `json:"refId" bson:"refId"`
+}
